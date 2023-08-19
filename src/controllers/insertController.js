@@ -1,4 +1,4 @@
-import { insertService } from '../services/insertService.js'
+import { insertService, insertPricesAreasCategories } from '../services/insertService.js'
 
 export const insert = async (req, res) => {
    try {

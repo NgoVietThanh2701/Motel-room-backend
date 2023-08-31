@@ -5,6 +5,7 @@ import postRoute from './postRoute.js'
 import priceRoute from './priceRoute.js'
 import areaRoute from './areaRoute.js'
 import provinceRoute from './provinceRoute.js'
+import userRoute from './userRoute.js'
 
 const initRoutes = (app) => {
    app.use('/api/v1/auth', authRouter)
@@ -14,6 +15,7 @@ const initRoutes = (app) => {
    app.use('/api/v1/price', priceRoute)
    app.use('/api/v1/area', areaRoute)
    app.use('/api/v1/province', provinceRoute)
+   app.use('/api/v1/user', userRoute)
 }
 
 export default initRoutes

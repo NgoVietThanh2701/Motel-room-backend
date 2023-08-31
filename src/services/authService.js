@@ -19,8 +19,8 @@ export const registerService = ({ phone, password, name }) => new Promise(async 
          },
       })
       /* */
-      const token = response[1] && jwt.sign({ id: response[0].id, phone: response[0].phone, },
-         process.env.SECRET_KEY, { expiresIn: '2d' });
+      const token = response[1] && jwt.sign({ id: response[0].id, phone: response[0].phone },
+         process.env.SECRET_KEY, { expiresIn: '1d' });
       resolve({
          err: token ? false : true,
          msg: token ? 'Register successfully' : 'Phone has been already used',
@@ -41,7 +41,7 @@ export const loginService = ({ phone, password }) => new Promise(async (resolve,
       const isCorrectPassword = response && bcrypt.compareSync(password, response.password)
       /* */
       const token = isCorrectPassword && jwt.sign({ id: response.id, phone: response.phone, },
-         process.env.SECRET_KEY, { expiresIn: '2d' });
+         process.env.SECRET_KEY, { expiresIn: '1d' });
       resolve({
          err: token ? false : true,
          msg: token ? 'Login successfully' : response ? 'Password wrong!' : 'Phone not found!',

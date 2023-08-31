@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'userId',
             targetKey: 'id', as: 'user'
          })
+         Post.belongsTo(models.Overview, {
+            foreignKey: 'overviewId',
+            targetKey: 'id', as: 'overviews'
+         })
       }
    }
    Post.init({
@@ -38,8 +42,9 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.TEXT,
       userId: DataTypes.STRING,
       overviewId: DataTypes.STRING,
-      imagesId: DataTypes.STRING
-
+      imagesId: DataTypes.STRING,
+      priceNumber: DataTypes.FLOAT,
+      areaNumber: DataTypes.FLOAT,
    }, {
       sequelize,
       modelName: 'Post',

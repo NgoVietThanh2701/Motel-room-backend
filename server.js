@@ -14,6 +14,7 @@ app.use(cors({
 }))
 app.use(express.json()) /* can read json from client send */
 app.use(express.urlencoded({ extended: true })) /* can read form from client send */
+app.use(express.static("public"))
 
 /* call router */
 initRoutes(app);

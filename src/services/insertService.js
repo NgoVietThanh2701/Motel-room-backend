@@ -8,7 +8,7 @@ import chothuematbang from '../../data/chothuematbang.json'
 import dotenv from 'dotenv';
 import generateCode from '../utilis/generateCode';
 import { dataPrice, dataArea, categories } from '../utilis/data';
-import { getNumberFromString } from '../utilis/common';
+import { getNumberFromString, getNumberFromStringV2 } from '../utilis/common';
 dotenv.config();
 const allData = [chothuephongtro.body, nhachothue.body, chothuecanho.body, chothuematbang.body]
 
@@ -53,7 +53,9 @@ export const insertService = () => new Promise(async (resolve, reject) => {
                imagesId,
                areaCode: dataArea.find(area => area.max > currentArea && area.min <= currentArea)?.code,
                priceCode: dataPrice.find(price => price.max > currentPrice && price.min <= currentPrice)?.code,
-               provinceCode: provinceCode
+               provinceCode: provinceCode,
+               priceNumber: +getNumberFromStringV2(item?.header.attributes.price),
+               areaNumber: +getNumberFromStringV2(item?.header.attributes.acreage)
             })
             await db.Attribute.create({
                id: attributesId,
@@ -76,12 +78,18 @@ export const insertService = () => new Promise(async (resolve, reject) => {
                created: item?.overview?.content?.find(i => i.name === "Ngày đăng:")?.content,
                expired: item?.overview?.content?.find(i => i.name === "Ngày hết hạn:")?.content,
             })
-            await db.User.create({
-               id: userId,
-               name: item?.contact?.content?.find(i => i.name === "Liên hệ:")?.content,
-               password: hashPassword('123456'),
-               phone: item?.contact?.content?.find(i => i.name === "Điện thoại:")?.content,
-               zalo: item?.contact?.content?.find(i => i.name === "Zalo")?.content,
+            await db.User.findOrCreate({
+               where: {
+                  phone: item?.contact?.content?.find(i => i.name === "Điện thoại:")?.content
+               },
+               defaults: {
+                  id: userId,
+                  name: item?.contact?.content?.find(i => i.name === "Liên hệ:")?.content,
+                  password: hashPassword('123456'),
+                  phone: item?.contact?.content?.find(i => i.name === "Điện thoại:")?.content,
+                  zalo: item?.contact?.content?.find(i => i.name === "Zalo")?.content,
+               }
+
             })
          })
       })

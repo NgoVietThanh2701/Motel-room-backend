@@ -4,12 +4,12 @@ const verifyToken = (req, res, next) => {
    let accessToken = req.headers.authorization?.split(' ')[1]
    if (!accessToken) return res.status(401).json({
       err: true,
-      msg: "Missing access token"
+      msg: "No token provided."
    })
    jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) => {
       if (err) return res.status(401).json({
          err: true,
-         msg: "Access token expired"
+         msg: "Unauthorized access."
       })
       req.user = user
       next()

@@ -27,3 +27,23 @@ export const login = async (req, res) => {
       })
    }
 }
+
+export const refreshToken = async (req, res) => {
+   const { refreshToken } = req.body;
+   if (!refreshToken) {
+      return res.status(400).json({
+         err: true,
+         msg: 'token not provided '
+      })
+   }
+   try {
+      const response = await authService.refreshTokenService(refreshToken)
+      return res.status(200).json(response)
+   } catch (err) {
+      return res.status(500).json({
+         err: true,
+         msg: 'Fail at refresh token: ' + err
+      })
+   }
+
+}
